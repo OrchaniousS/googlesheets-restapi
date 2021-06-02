@@ -1,16 +1,37 @@
-import { useState } from "react";
-import { Button, Form, Container, Header, Segment } from "semantic-ui-react";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-
-import "semantic-ui-css/semantic.min.css";
+import { useState, useEffect } from "react";
+import {
+  Grid,
+  Button,
+  Form,
+  Container,
+  Header,
+  Segment,
+} from "semantic-ui-react";
 import axios from "axios";
+
+import About from "../components/About";
+import Footer from "../components/Footer";
+import styles from "../styles/Home.module.css";
+import "semantic-ui-css/semantic.min.css";
+// import Head from "next/head";
+// import Image from "next/image";
 
 export default function Home() {
   const initialState = { name: "", age: "", salary: "", hobby: "" };
   const [values, setValues] = useState(initialState);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
+  useEffect(() => {
+    if (window.innerWidth > 768) {
+      setIsDesktop((curr) => !curr);
+    }
+    if (window.innerWidth < 768) {
+      setIsMobile((curr) => !curr);
+    }
+  }, []);
+
+  // REST API FOR GOOGLE SHEETS CONNECTION
   const URL =
     "https://sheet.best/api/sheets/0c0b0b57-1ee6-4814-8249-adbbe00da2a3";
 
@@ -31,48 +52,60 @@ export default function Home() {
     }
   }
 
+  const form = (
+    <Form className={styles.form} onSubmit={onSubmit}>
+      <Segment.Group raised compact>
+        <Segment stacked>
+          <Form.Input
+            name="name"
+            type="text"
+            label="Name"
+            placeholder="Enter your name"
+            value={values.name}
+            onChange={changeHandler}
+          />
+          <Form.Input
+            name="age"
+            type="number"
+            label="Age"
+            placeholder="Enter your age"
+            value={values.age}
+            onChange={changeHandler}
+          />
+          <Form.Input
+            name="salary"
+            type="number"
+            label="Salary"
+            placeholder="Enter your salary"
+            value={values.salary}
+            onChange={changeHandler}
+          />
+          <Form.Input
+            name="hobby"
+            type="text"
+            label="Hobby"
+            placeholder="Enter your hobby"
+            value={values.hobby}
+            onChange={changeHandler}
+          />
+          <Button fluid primary type="submit" content="Submit" icon="save" />
+        </Segment>
+      </Segment.Group>
+    </Form>
+  );
+
   return (
-    <Container className={styles.container} textAlign="center">
-      <Header as="h2" content="React Google Sheets!" />
-      <Form className={styles.form} onSubmit={onSubmit}>
-        <Segment.Group raised compact>
-          <Segment stacked>
-            <Form.Input
-              name="name"
-              type="text"
-              label="Name"
-              placeholder="Enter your name"
-              value={values.name}
-              onChange={changeHandler}
-            />
-            <Form.Input
-              name="age"
-              type="number"
-              label="Age"
-              placeholder="Enter your age"
-              value={values.age}
-              onChange={changeHandler}
-            />
-            <Form.Input
-              name="salary"
-              type="number"
-              label="Salary"
-              placeholder="Enter your salary"
-              value={values.salary}
-              onChange={changeHandler}
-            />
-            <Form.Input
-              name="hobby"
-              type="text"
-              label="Hobby"
-              placeholder="Enter your hobby"
-              value={values.hobby}
-              onChange={changeHandler}
-            />
-            <Button fluid primary type="submit" content="Submit" icon="save" />
-          </Segment>
-        </Segment.Group>
-      </Form>
-    </Container>
+    <>
+      <Container className={styles.container} textAlign="center">
+        <Header as="h2" content="React Google Sheets!" />
+        <Grid columns={isDesktop ? 2 : isMobile ? 1 : 1}>
+          <Grid.Column>{form}</Grid.Column>
+          <Grid.Column className={styles.column}>
+            <About />
+          </Grid.Column>
+        </Grid>
+      </Container>
+      <Footer styles={styles.footer} />
+    </>
   );
 }
