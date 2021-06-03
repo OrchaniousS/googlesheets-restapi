@@ -99,10 +99,10 @@ export default function Home() {
       <Container className={styles.container} textAlign="center">
         <Header as="h2" content="React Google Sheets!" />
         <Grid columns={isDesktop ? 2 : isMobile ? 1 : 1}>
-          <Grid.Column>{form}</Grid.Column>
           <Grid.Column className={styles.column}>
             <About />
           </Grid.Column>
+          <Grid.Column>{form}</Grid.Column>
         </Grid>
       </Container>
       <Footer styles={styles.footer} />

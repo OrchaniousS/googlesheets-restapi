@@ -4,17 +4,17 @@ import { Button, Icon } from "semantic-ui-react";
 export default function Footer({ styles }) {
   return (
     <footer className={styles}>
-      <Button
-        compact
-        content={
-          <>
-            GitHub Repo{"    "}
-            <Link href="https://github.com/OrchaniousS/googlesheets-restapi">
+      <Link href="https://github.com/OrchaniousS/googlesheets-restapi">
+        <Button
+          compact
+          content={
+            <>
+              GitHub Repo{"    "}
               <Icon name="github" />
-            </Link>
-          </>
-        }
-      />
+            </>
+          }
+        ></Button>
+      </Link>
     </footer>
   );
 }
