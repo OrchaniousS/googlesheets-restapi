@@ -9,3 +9,8 @@ https://docs.google.com/spreadsheets/d/1SbFOsWqZMIz4AtfseNdgplgr7g5boxanemTmIKKy
 - Frontend frameworks: Next.js, React
 - CSS library: Semantic ui css, Semantic ui react
 - axios
+
+## To do:
+
+1. Add save popup effect.
+2. Add preview of the added data.
