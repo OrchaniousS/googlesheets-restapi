@@ -6,14 +6,18 @@ import {
   Container,
   Header,
   Segment,
+  Dimmer,
+  Loader,
+  Image,
 } from "semantic-ui-react";
 import axios from "axios";
 
 import About from "../components/About";
 import Footer from "../components/Footer";
+import CustomPopup from "../components/CustomPopup";
 import styles from "../styles/Home.module.css";
 import "semantic-ui-css/semantic.min.css";
-// import Head from "next/head";
+
 // import Image from "next/image";
 
 export default function Home() {
@@ -21,6 +25,7 @@ export default function Home() {
   const [values, setValues] = useState(initialState);
   const [isMobile, setIsMobile] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [loaderIcon, setLoaderIcon] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth > 768) {
@@ -40,70 +45,98 @@ export default function Home() {
 
   function onSubmit(event) {
     event.preventDefault();
-    console.log(values);
 
     try {
       if (values) {
         axios.post(URL, values).then((res) => console.log(res));
-        return;
+        setValues(initialState);
       }
     } catch {
       console.log(err);
     }
   }
 
+  const setLoaderHandler = () => {
+    setLoaderIcon(true);
+
+    setTimeout(() => {
+      setLoaderIcon(false);
+    }, 1000);
+  };
+
   const form = (
-    <Form className={styles.form} onSubmit={onSubmit}>
-      <Segment.Group raised compact>
-        <Segment stacked>
-          <Form.Input
-            name="name"
-            type="text"
-            label="Name"
-            placeholder="Enter your name"
-            value={values.name}
-            onChange={changeHandler}
-          />
-          <Form.Input
-            name="age"
-            type="number"
-            label="Age"
-            placeholder="Enter your age"
-            value={values.age}
-            onChange={changeHandler}
-          />
-          <Form.Input
-            name="salary"
-            type="number"
-            label="Salary"
-            placeholder="Enter your salary"
-            value={values.salary}
-            onChange={changeHandler}
-          />
-          <Form.Input
-            name="hobby"
-            type="text"
-            label="Hobby"
-            placeholder="Enter your hobby"
-            value={values.hobby}
-            onChange={changeHandler}
-          />
-          <Button fluid primary type="submit" content="Submit" icon="save" />
-        </Segment>
-      </Segment.Group>
-    </Form>
+    <Grid centered>
+      <Form className={styles.form} onSubmit={onSubmit}>
+        <Segment.Group raised>
+          <Segment stacked>
+            <Form.Input
+              name="name"
+              type="text"
+              label="Name"
+              placeholder="Enter your name"
+              value={values.name}
+              onChange={changeHandler}
+            />
+            <Form.Input
+              name="age"
+              type="number"
+              label="Age"
+              placeholder="Enter your age"
+              value={values.age}
+              onChange={changeHandler}
+            />
+            <Form.Input
+              name="salary"
+              type="number"
+              label="Salary"
+              placeholder="Enter your salary"
+              value={values.salary}
+              onChange={changeHandler}
+            />
+            <Form.Input
+              name="hobby"
+              type="text"
+              label="Hobby"
+              placeholder="Enter your hobby"
+              value={values.hobby}
+              onChange={changeHandler}
+            />
+            <CustomPopup content={"Save data to google sheets"}>
+              <Button
+                fluid
+                primary
+                type="submit"
+                content="Submit"
+                icon="save"
+                onClick={setLoaderHandler}
+              />
+            </CustomPopup>
+          </Segment>
+        </Segment.Group>
+      </Form>
+    </Grid>
   );
 
   return (
     <>
       <Container className={styles.container} textAlign="center">
         <Header as="h2" content="React Google Sheets!" />
-        <Grid columns={isDesktop ? 2 : isMobile ? 1 : 1}>
-          <Grid.Column className={styles.column}>
-            <About />
-          </Grid.Column>
-          <Grid.Column>{form}</Grid.Column>
-        </Grid>
+        {loaderIcon ? (
+          <Segment>
+            <Dimmer active inverted>
+              <Loader inverted>Loading</Loader>
+            </Dimmer>
+
+            <Image src="/images/wireframe/short-paragraph.png" />
+          </Segment>
+        ) : (
+          <Grid columns={isDesktop ? 2 : isMobile ? 1 : 1}>
+            <Grid.Column className={styles.column}>
+              <About />
+            </Grid.Column>
+            <Grid.Column>{form}</Grid.Column>
+          </Grid>
+        )}
       </Container>
       <Footer styles={styles.footer} />
     </>

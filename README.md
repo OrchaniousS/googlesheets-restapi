@@ -10,6 +10,8 @@ https://docs.google.com/spreadsheets/d/1SbFOsWqZMIz4AtfseNdgplgr7g5boxanemTmIKKy
 - CSS library: Semantic ui css, Semantic ui react
 - axios
 
+- - Hosting: Netlify
+
 ## To do:
 
 1. Add save popup effect.
