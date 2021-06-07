@@ -23,18 +23,7 @@ import "semantic-ui-css/semantic.min.css";
 export default function Home() {
   const initialState = { name: "", age: "", salary: "", hobby: "" };
   const [values, setValues] = useState(initialState);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const [loaderIcon, setLoaderIcon] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth > 768) {
-      setIsDesktop((curr) => !curr);
-    }
-    if (window.innerWidth < 768) {
-      setIsMobile((curr) => !curr);
-    }
-  }, []);
 
   // REST API FOR GOOGLE SHEETS CONNECTION
   const URL =
@@ -118,27 +107,29 @@ export default function Home() {
   );
 
   return (
-    <>
-      <Container className={styles.container} textAlign="center">
-        <Header as="h2" content="React Google Sheets!" />
-        {loaderIcon ? (
-          <Segment>
-            <Dimmer active inverted>
-              <Loader inverted>Loading</Loader>
-            </Dimmer>
+    <Grid centered className={styles.home}>
+      <Segment color="blue" className={styles.segment}>
+        <Container className={styles.container} textAlign="center">
+          <Header as="h2" content="React Google Sheets!" />
+          {loaderIcon ? (
+            <Segment>
+              <Dimmer active inverted>
+                <Loader inverted>Loading</Loader>
+              </Dimmer>
 
-            <Image src="/images/wireframe/short-paragraph.png" />
-          </Segment>
-        ) : (
-          <Grid columns={isDesktop ? 2 : isMobile ? 1 : 1}>
-            <Grid.Column className={styles.column}>
-              <About />
-            </Grid.Column>
-            <Grid.Column>{form}</Grid.Column>
-          </Grid>
-        )}
-      </Container>
-      <Footer styles={styles.footer} />
-    </>
+              <Image src="/images/wireframe/short-paragraph.png" />
+            </Segment>
+          ) : (
+            <Grid columns={1}>
+              <Grid.Column className={styles.column}>
+                <About />
+              </Grid.Column>
+              <Grid.Column>{form}</Grid.Column>
+            </Grid>
+          )}
+        </Container>
+        <Footer styles={styles.footer} />
+      </Segment>
+    </Grid>
   );
 }

@@ -1,19 +1,21 @@
 import Link from "next/link";
-import { Button, Icon } from "semantic-ui-react";
+import { Icon, Segment } from "semantic-ui-react";
 
 export default function Footer({ styles }) {
   return (
     <footer className={styles}>
       <Link href="https://github.com/OrchaniousS/googlesheets-restapi">
-        <Button
+        {/* <Button
           compact
           content={
-            <>
-              GitHub Repo{"    "}
-              <Icon name="github" />
-            </>
-          }
-        ></Button>
+            <> */}
+        <Segment color="grey">
+          GitHub Repo
+          <Icon name="github" />
+        </Segment>
+        {/* </> */}
+        {/* }
+        ></Button> */}
       </Link>
     </footer>
   );
